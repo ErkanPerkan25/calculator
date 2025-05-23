@@ -65,9 +65,22 @@ Token::get(istream& is){
     int prev = ERROR;
 
     while(curr!=ERROR){
+        // gets character
+        ch = is.get();
+
+        // sets the previous and move the next based character
+        prev = curr;
+        curr = DFA[curr][(int) ch];
+
+        // if char is valid, add it to the lexem val
+        if(curr!=ERROR){
+            _val += ch;
+        }
 
     }
 
+    // sets the token type
+    _type = (TokenType) prev;
 
     // Reads a token, sets value and the type of the token
     return is;
