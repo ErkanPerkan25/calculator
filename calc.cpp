@@ -27,10 +27,15 @@ double division(string &lhs, string &rhs){
 int main(int argc, char *argv[]){
     cout << "======== Calculator ========" << endl;
     Token tok;
-     
-    cin >> tok;
 
-    cout << tok << endl;
+    tok.get(cin);
+
+    while(tok.type()!=EOL_T){
+        if(tok.type() != ERROR_T){
+            cout << tok << endl;
+        }
+        tok.get(cin);
+    }
 
     return 0;
 }

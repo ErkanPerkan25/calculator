@@ -9,13 +9,13 @@ static int **DFA=nullptr;
 
 string tokenType_str[] = {"ERROR_T", "NUM_INT", "NUM_REAL", "ADDOP_T", "MULOP_T", "LPAREN_T", "RPAREN_T"};
 
-istream&
+void
 Token::get(istream& is){
     // Determinist Finite Automata table, initalize if not done already
     if (!DFA) {
-        DFA = new int*[7];
+        DFA = new int*[8];
 
-        for(int state=0; state < 7; state++){
+        for(int state=0; state < 8; state++){
             // Creates a row with 256 columns, the characters
             DFA[state] = new int[256];
             for(int ch=0; ch < 256; ch++){
@@ -46,19 +46,21 @@ Token::get(istream& is){
 
     }
 
+    _val = "";
     char ch;
 
     ch = is.get();
 
     if(!is) 
-        _type = ERROR_T;
+        _type = EOL_T;
 
     while(isspace(ch)){
-
+        ch = is.get();
     }
 
     if(!is){
-        _type = ERROR_T;
+        _type = EOL_T;
+        return;
     }
 
     is.putback(ch);
@@ -86,9 +88,6 @@ Token::get(istream& is){
 
     if(is)
         is.putback(ch);
-
-    // Reads a token, sets value and the type of the token
-    return is;
 }
 
 ostream&

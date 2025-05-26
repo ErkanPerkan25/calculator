@@ -4,7 +4,7 @@
 #include <iostream>
 #include <ostream>
 
-enum TokenType{ERROR_T, NUM_INT, NUM_REAL, ADDOP_T, MULOP_T, LPAREN_T, RPAREN_T};
+enum TokenType{ERROR_T, EOL_T, NUM_INT, NUM_REAL, ADDOP_T, MULOP_T, LPAREN_T, RPAREN_T};
 
 class Token{
 private:
@@ -26,7 +26,7 @@ public:
     std::string& value() {return _val;}
 
     // Read the token
-    std::istream& get(std::istream &os);
+    void get(std::istream &os);
 
     // Prints token
     std::ostream& print(std::ostream &os) const;
@@ -36,8 +36,5 @@ inline std::ostream& operator<<(std::ostream &os, const Token &tok){
     return tok.print(os);
 }
 
-inline std::istream& operator>>(std::istream &is, Token &tok){
-    return tok.get(is);
-}
 
 #endif
