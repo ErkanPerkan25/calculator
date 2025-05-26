@@ -28,7 +28,9 @@ int main(int argc, char *argv[]){
     cout << "======== Calculator ========" << endl;
     Token tok;
      
+    cin >> tok;
 
+    cout << tok << endl;
 
     return 0;
 }

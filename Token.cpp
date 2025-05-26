@@ -7,6 +7,8 @@ static int **DFA=nullptr;
 #define ERROR -1
 #define NONE 0
 
+string tokenType_str[] = {"ERROR_T", "NUM_INT", "NUM_REAL", "ADDOP_T", "MULOP_T", "LPAREN_T", "RPAREN_T"};
+
 istream&
 Token::get(istream& is){
     // Determinist Finite Automata table, initalize if not done already
@@ -82,13 +84,16 @@ Token::get(istream& is){
     // sets the token type
     _type = (TokenType) prev;
 
+    if(is)
+        is.putback(ch);
+
     // Reads a token, sets value and the type of the token
     return is;
 }
 
 ostream&
 Token::print(ostream& os) const{
-    os << "Token value: " << _val << endl << "Token Type: " << _type << endl;
+    os << "Token value: " << _val << endl << "Token Type: " << tokenType_str[_type] << endl;
     return os;
 }
 
