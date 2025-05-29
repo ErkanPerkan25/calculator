@@ -7,7 +7,7 @@ static int **DFA=nullptr;
 #define ERROR -1
 #define NONE 0
 
-string tokenType_str[] = {"ERROR_T", "NUM_INT", "NUM_REAL", "ADDOP_T", "MULOP_T", "LPAREN_T", "RPAREN_T"};
+string tokenType_str[] = {"ERROR_T", "EOL_T", "NUM_INT", "NUM_REAL", "ADDOP_T", "MULOP_T", "LPAREN_T", "RPAREN_T"};
 
 void
 Token::get(istream& is){
