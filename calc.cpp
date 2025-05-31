@@ -42,52 +42,39 @@ int main(int argc, char *argv[]){
 
     while(tok.type() != EOL_T){
         if(tok.type() != ERROR_T){
-            if(tok.type() == ADDOP_T || tok.type() == MULOP_T || tok.type() == LPAREN_T || tok.type() == RPAREN_T){
-                
-                if(stack.empty() || tok.type() > stack.top().type()){
-                    stack.push(tok);
-                }
-                else{
-                    if(!stack.empty()){
-                        while(!stack.empty()){
-                            if (stack.top().type() >= tok.type()) {
-                                postfix.push(stack.top());
-                                stack.pop();
-                            }
-                        }
-                    }
-                }
-            }
-            else{
-                postfix.push(tok);
-            }
-            
             if(tok.type() == LPAREN_T){
                 stack.push(tok);
             }
             else if (tok.type() == RPAREN_T) {
-                while (stack.top().value() != ")") {
+                while (stack.top().value() != "(") {
                     postfix.push(stack.top());
                     stack.pop();
                 } 
+                stack.pop();
+            }
+            else if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
+                postfix.push(tok);
+            }
+            else{
             }
 
-            //tok.get(cin);
         }
-    }
 
-
-    if(!stack.empty()){
-        while (!stack.empty()) {
-            postfix.push(stack.top());
-            stack.pop();
+        if(!stack.empty()){
+            while (!stack.empty()) {
+                postfix.push(stack.top());
+                stack.pop();
+            }
         }
+
+        while(!postfix.empty()){
+            cout << postfix.top().value() << " ";
+            postfix.pop();
+        }
+
+        tok.get(cin);
     }
 
-    while(!postfix.empty()){
-        cout << postfix.top().value() << endl;
-        postfix.pop();
-    }
 
     return 0;
 }

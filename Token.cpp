@@ -7,15 +7,15 @@ static int **DFA=nullptr;
 #define ERROR -1
 #define NONE 0
 
-string tokenType_str[] = {"ERROR_T", "EOL_T", "NUM_INT", "NUM_REAL", "ADDOP_T", "MULOP_T", "LPAREN_T", "RPAREN_T"};
+string tokenType_str[] = {"ERROR_T", "EOL_T", "ID", "NUM_INT", "NUM_REAL", "ADDOP_T", "MULOP_T", "LPAREN_T", "RPAREN_T"};
 
 void
 Token::get(istream& is){
     // Determinist Finite Automata table, initalize if not done already
     if (!DFA) {
-        DFA = new int*[8];
+        DFA = new int*[9];
 
-        for(int state=0; state < 8; state++){
+        for(int state=0; state < 9; state++){
             // Creates a row with 256 columns, the characters
             DFA[state] = new int[256];
             for(int ch=0; ch < 256; ch++){
@@ -32,12 +32,20 @@ Token::get(istream& is){
         DFA[NONE][(int) '('] = LPAREN_T;
         DFA[NONE][(int) ')'] = RPAREN_T;
 
+        DFA[NONE][(int) '\0'] = EOL_T;
+
         // Filling the tabel with the characters for the states
         for(char ch='0'; ch < '9'; ch++)
             DFA[NONE][(int) ch] = NUM_INT;
          
         for(char ch='0'; ch < '9'; ch++)
             DFA[NUM_INT][(int) ch] = NUM_INT;
+
+        for(char ch='a'; ch < 'z'; ch++)
+            DFA[NONE][(int) ch] = ID;
+
+        for(char ch='a'; ch < 'z'; ch++)
+            DFA[ID][(int) ch] = ID;
 
         DFA[NUM_INT]['.'] = NUM_REAL;
 
