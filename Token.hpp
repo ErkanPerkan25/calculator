@@ -26,7 +26,7 @@ public:
     std::string& value() {return _val;}
 
     // Read the token
-    void get(std::istream &os);
+    void get(std::istream &is);
 
     // Prints token
     std::ostream& print(std::ostream &os) const;

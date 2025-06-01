@@ -32,7 +32,7 @@ Token::get(istream& is){
         DFA[NONE][(int) '('] = LPAREN_T;
         DFA[NONE][(int) ')'] = RPAREN_T;
 
-        DFA[NONE][(int) '\0'] = EOL_T;
+        DFA[NONE][(int) '\n'] = EOL_T;
 
         // Filling the tabel with the characters for the states
         for(char ch='0'; ch < '9'; ch++)
@@ -59,14 +59,18 @@ Token::get(istream& is){
 
     ch = is.get();
 
-    if(!is) 
+    if(ch == '\n') 
         _type = EOL_T;
 
     while(isspace(ch)){
+        if (ch=='\n') {
+            _type = EOL_T;
+            break;
+        }
         ch = is.get();
     }
 
-    if(!is){
+    if(ch == '\n'){
         _type = EOL_T;
         return;
     }

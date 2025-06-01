@@ -1,4 +1,6 @@
+#include <cstdio>
 #include <iostream>
+#include <istream>
 #include <string>
 #include <stack>
 #include <vector>
@@ -28,15 +30,16 @@ double division(string &lhs, string &rhs){
 }
 
 void evaluate_postfix(){
-
+    
 }
 
 int main(int argc, char *argv[]){
     cout << "======== Calculator ========" << endl;
 
     Token tok;
-    stack<Token> postfix;
+    vector<Token> postfix;
     stack<Token> stack;
+
 
     tok.get(cin);
 
@@ -47,34 +50,35 @@ int main(int argc, char *argv[]){
             }
             else if (tok.type() == RPAREN_T) {
                 while (stack.top().value() != "(") {
-                    postfix.push(stack.top());
+                    postfix.push_back((stack.top()));
                     stack.pop();
                 } 
                 stack.pop();
             }
             else if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
-                postfix.push(tok);
+                postfix.push_back((tok));
             }
             else{
+                while (!stack.empty()) {
+                    postfix.push_back((stack.top()));
+                    stack.pop();
+                }
+                stack.push(tok);
             }
 
-        }
-
-        if(!stack.empty()){
-            while (!stack.empty()) {
-                postfix.push(stack.top());
-                stack.pop();
-            }
-        }
-
-        while(!postfix.empty()){
-            cout << postfix.top().value() << " ";
-            postfix.pop();
         }
 
         tok.get(cin);
     }
 
+    while (!stack.empty()) {
+        postfix.push_back((stack.top()));
+        stack.pop();
+    }
+
+    for(auto i : postfix){
+        cout << i.value() << endl;
+    }
 
     return 0;
 }
