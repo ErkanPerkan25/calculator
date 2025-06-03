@@ -77,7 +77,24 @@ int main(int argc, char *argv[]){
     }
 
     for(auto i : postfix){
-        cout << i.value() << endl;
+        if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
+            stack.push(tok);
+        }
+        else if(tok.type() == ADDOP_T || tok.type() == MULOP_T){
+            Token tok1 = stack.top();
+            stack.pop();
+            Token tok2 = stack.top();
+            stack.pop();
+
+            double sum;
+            Token res; 
+
+            if(tok.value() == "+"){
+                sum = additon(tok1.value(), tok2.value());
+            }
+
+
+        }
     }
 
     return 0;
