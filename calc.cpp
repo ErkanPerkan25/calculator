@@ -65,7 +65,6 @@ int main(int argc, char *argv[]){
                 }
                 stack.push(tok);
             }
-
         }
 
         tok.get(cin);
@@ -75,27 +74,44 @@ int main(int argc, char *argv[]){
         postfix.push_back((stack.top()));
         stack.pop();
     }
-
     for(auto i : postfix){
-        if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
-            stack.push(tok);
+        if(i.type() == NUM_INT || i.type() == NUM_REAL){
+            stack.push(i);
         }
-        else if(tok.type() == ADDOP_T || tok.type() == MULOP_T){
+        else if(i.type() == ADDOP_T || i.type() == MULOP_T){
             Token tok1 = stack.top();
+            cout << tok1 << endl;
             stack.pop();
             Token tok2 = stack.top();
+            cout << tok2 << endl;
             stack.pop();
 
-            double sum;
+            double sum; 
             Token res; 
 
-            if(tok.value() == "+"){
-                sum = additon(tok1.value(), tok2.value());
+            if(i.value() == "*"){
+                sum = multiply(tok2.value(), tok1.value());
+            }
+            else if (i.value() == "/") {
+                sum = division(tok2.value(), tok1.value());
+            }
+            else if (i.value() == "*") {
+                sum = additon(tok2.value(), tok1.value());
+            }
+            else if (i.value() == "-") {
+                sum = subtraction(tok2.value(), tok1.value());
             }
 
+            res.value() = to_string(sum);
+            res.type() = NUM_REAL;
+
+            stack.push(res);
 
         }
     }
+
+    cout << stack.top().value() << endl;
+
 
     return 0;
 }
