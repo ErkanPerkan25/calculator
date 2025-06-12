@@ -54,13 +54,19 @@ int main(int argc, char *argv[]){
                     postfix.push_back(stack.top());
                     stack.pop();
                 } 
+                stack.pop();
             }
-            else{
-                while(!stack.empty() && stack.top().type() >= tok.type()) {
-                    postfix.push_back(stack.top());
-                    stack.pop();
+            else if (tok.type() == ADDOP_T || tok.type() == MULOP_T){
+                if (!stack.empty()) {
+                    while(!stack.empty() && stack.top().type() >= tok.type()) {
+                        postfix.push_back(stack.top());
+                        stack.pop();
+                    }
+                    stack.push(tok);
                 }
-                stack.push(tok);
+                else{
+                    stack.push(tok);
+                }
             }
 
         }

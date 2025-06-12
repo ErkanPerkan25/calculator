@@ -4,7 +4,7 @@
 #include <iostream>
 #include <ostream>
 
-enum TokenType{ERROR_T, EOL_T, ID, NUM_INT, NUM_REAL, ADDOP_T, MULOP_T, LPAREN_T, RPAREN_T};
+enum TokenType{ERROR_T, EOL_T, ID, RPAREN_T, LPAREN_T, NUM_INT, NUM_REAL, ADDOP_T, MULOP_T};
 
 class Token{
 private:
