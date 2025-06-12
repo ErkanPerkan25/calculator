@@ -1,6 +1,4 @@
-#include <cstdio>
 #include <iostream>
-#include <istream>
 #include <string>
 #include <stack>
 #include <vector>
@@ -45,45 +43,49 @@ int main(int argc, char *argv[]){
 
     while(tok.type() != EOL_T){
         if(tok.type() != ERROR_T){
-            if(tok.type() == LPAREN_T){
+            if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
+                postfix.push_back(tok);
+            }
+            else if(tok.type() == LPAREN_T){
                 stack.push(tok);
             }
             else if (tok.type() == RPAREN_T) {
-                while (stack.top().value() != "(") {
-                    postfix.push_back((stack.top()));
+                while (!stack.empty() && stack.top().type() != LPAREN_T) {
+                    postfix.push_back(stack.top());
                     stack.pop();
                 } 
-                stack.pop();
-            }
-            else if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
-                postfix.push_back((tok));
             }
             else{
-                while (!stack.empty()) {
-                    postfix.push_back((stack.top()));
+                while(!stack.empty() && stack.top().type() >= tok.type()) {
+                    postfix.push_back(stack.top());
                     stack.pop();
                 }
                 stack.push(tok);
             }
+
         }
 
         tok.get(cin);
     }
 
     while (!stack.empty()) {
-        postfix.push_back((stack.top()));
+        postfix.push_back(stack.top());
         stack.pop();
     }
+
+    for(auto i : postfix){
+        cout << i.value() << " ";
+    }
+    cout << endl;
+
     for(auto i : postfix){
         if(i.type() == NUM_INT || i.type() == NUM_REAL){
             stack.push(i);
         }
         else if(i.type() == ADDOP_T || i.type() == MULOP_T){
             Token tok1 = stack.top();
-            cout << tok1 << endl;
             stack.pop();
             Token tok2 = stack.top();
-            cout << tok2 << endl;
             stack.pop();
 
             double sum; 
@@ -95,7 +97,7 @@ int main(int argc, char *argv[]){
             else if (i.value() == "/") {
                 sum = division(tok2.value(), tok1.value());
             }
-            else if (i.value() == "*") {
+            else if (i.value() == "+") {
                 sum = additon(tok2.value(), tok1.value());
             }
             else if (i.value() == "-") {
@@ -106,7 +108,6 @@ int main(int argc, char *argv[]){
             res.type() = NUM_REAL;
 
             stack.push(res);
-
         }
     }
 
