@@ -58,7 +58,7 @@ Token::get(istream& is){
     char ch;
 
     ch = is.get();
-
+    
     if(ch == '\n') 
         _type = EOL_T;
 

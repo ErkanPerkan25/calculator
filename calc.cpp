@@ -28,6 +28,7 @@ double division(string &lhs, string &rhs){
 }
 
 int main(int argc, char *argv[]){
+    cout << "To quit enter in 'q' and the press Enter" << endl;
     cout << "======== Calculator ========" << endl;
 
     // Initialized variables
@@ -42,6 +43,10 @@ int main(int argc, char *argv[]){
         // Infix to postfix expression
         while(tok.type() != EOL_T){
             if(tok.type() != ERROR_T){
+                if(tok.type() == ID){
+
+                }
+
                 if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
                     postfix.push_back(tok);
                 }
@@ -72,62 +77,64 @@ int main(int argc, char *argv[]){
 
             tok.get(cin);
         }
-        
-        // Puts the rest of operators to the postfix expression
-        while (!stack.empty()) {
-            postfix.push_back(stack.top());
-            stack.pop();
-        }
 
-        // Evaluates the postfix expression
-        for(auto i : postfix){
-            if(i.type() == NUM_INT || i.type() == NUM_REAL){
-                stack.push(i);
-            }
-            else if(i.type() == ADDOP_T || i.type() == MULOP_T){
-                Token tok1 = stack.top();
-                stack.pop();
-                Token tok2 = stack.top();
-                stack.pop();
-
-                double sum; 
-                Token res; 
-
-                if(i.value() == "*"){
-                    sum = multiply(tok2.value(), tok1.value());
-                }
-                else if (i.value() == "/") {
-                    sum = division(tok2.value(), tok1.value());
-                }
-                else if (i.value() == "+") {
-                    sum = additon(tok2.value(), tok1.value());
-                }
-                else if (i.value() == "-") {
-                    sum = subtraction(tok2.value(), tok1.value());
-                }
-
-                res.value() = to_string(sum);
-                res.type() = NUM_REAL;
-
-                stack.push(res);
-            }
-        }
-
-        // Prints out the value and clears the stack
-        cout << stack.top().value() << endl << "===========================" << endl;
-
-        // Empties the stack
-        while (!stack.empty()) {
-            stack.pop(); 
-        }
-
-        if(stack.empty()){
+        if (stack.empty()) {
+            cout << "===========================" << endl;
+            tok.get(cin);
         }
         else{
-            
+            // Puts the rest of operators to the postfix expression
+            while (!stack.empty()) {
+                postfix.push_back(stack.top());
+                stack.pop();
+            }
+
+            // Evaluates the postfix expression
+            for(auto i : postfix){
+                if(i.type() == NUM_INT || i.type() == NUM_REAL){
+                    stack.push(i);
+                }
+                else if(i.type() == ADDOP_T || i.type() == MULOP_T){
+                    Token tok1 = stack.top();
+                    stack.pop();
+                    Token tok2 = stack.top();
+                    stack.pop();
+
+                    double sum; 
+                    Token res; 
+
+                    if(i.value() == "*"){
+                        sum = multiply(tok2.value(), tok1.value());
+                    }
+                    else if (i.value() == "/") {
+                        sum = division(tok2.value(), tok1.value());
+                    }
+                    else if (i.value() == "+") {
+                        sum = additon(tok2.value(), tok1.value());
+                    }
+                    else if (i.value() == "-") {
+                        sum = subtraction(tok2.value(), tok1.value());
+                    }
+
+                    res.value() = to_string(sum);
+                    res.type() = NUM_REAL;
+
+                    stack.push(res);
+                }
+            }
+
+            // Prints out the value and clears the stack
+            cout << stack.top().value() << endl << "===========================" << endl;
+
+            // Empties the stack
+            while (!stack.empty()) {
+                stack.pop(); 
+            }
+
+            // Next line to read
+            tok.get(cin);
         }
-        // Next line to read
-        tok.get(cin);
+
         
     }
 
