@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// Function operations
 double additon(string &lhs, string &rhs){
     double sum = stod(lhs) + stod(rhs);
     return sum;
@@ -36,17 +37,13 @@ int main(int argc, char *argv[]){
     vector<Token> postfix;
     stack<Token> stack;
 
-
     tok.get(cin);
 
+    // Inputs till quit of program
     while (tok.value() != "q"){
         // Infix to postfix expression
         while(tok.type() != EOL_T){
             if(tok.type() != ERROR_T){
-                if(tok.type() == ID){
-
-                }
-
                 if(tok.type() == NUM_INT || tok.type() == NUM_REAL){
                     postfix.push_back(tok);
                 }
